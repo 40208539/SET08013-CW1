@@ -8,11 +8,11 @@ namespace SET08013_CW1
 {
     class Message
     {
-        enum Level {UG, PG};
+        private enum Level {UG, PG};
 
-        Level    level;
-        string   body;
-        string[] subjects;
-        string[] universities;
+        private Level    _level;
+        private string   _body;
+        private string[] _subjects;
+        private string[] _universities;
     }
 }
