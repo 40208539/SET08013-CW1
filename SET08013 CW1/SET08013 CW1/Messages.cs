@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SET08013_CW1
 {
-    class Message
+    class Messages
     {
     }
 }
