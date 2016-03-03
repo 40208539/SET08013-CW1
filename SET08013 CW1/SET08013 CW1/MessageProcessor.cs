@@ -14,16 +14,16 @@ namespace SET08013_CW1
         private const string _universityFilePath = "../University List.csv";
         private const string _validFilePath      = "../Valid Messages.txt";
         private const string _quarantineFilePath = "../Quarantine Messages.txt";
-        private       string _message;
+        private       string _inputMessage;
         
         public void ProcessMessage(string message)
         {
-            _message = message.ToLower();
+            _inputMessage = message.ToLower();
 
-            writeMessageToFile(validMessage());
+            writeMessageToFile(isValidMessage());
         }
 
-        private bool validMessage()
+        private bool isValidMessage()
         {
             StreamReader reader = new StreamReader(File.OpenRead(@_badWordFilePath));
 
@@ -33,7 +33,7 @@ namespace SET08013_CW1
                 string[] words = line.Split(',');
                 string   regex = "\\b" + words[0].ToLower() + "\\b";  //Match entire word only.
 
-                if (Regex.IsMatch(_message, regex))
+                if (Regex.IsMatch(_inputMessage, regex))
                 {
                     return false;
                 }
@@ -48,25 +48,25 @@ namespace SET08013_CW1
 
             if(valid)
             {
-                File.AppendAllText(@_validFilePath, _message + ",");
+                File.AppendAllText(@_validFilePath, _inputMessage + ",");
             }
             else
             {
-                File.AppendAllText(@_quarantineFilePath, _message + ",");
+                File.AppendAllText(@_quarantineFilePath, _inputMessage + ",");
             }
         }
 
         private void cleanMessage()
         {
-            StringBuilder result = new StringBuilder(_message.Length);
+            StringBuilder result = new StringBuilder(_inputMessage.Length);
 
-            foreach (char c in _message)
+            foreach (char c in _inputMessage)
             {
                 if (c != ',')
                     result.Append(c);
             }
             Console.Write(result);
-            _message = result.ToString();
+            _inputMessage = result.ToString();
         }
     }
 }
