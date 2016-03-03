@@ -6,16 +6,13 @@ using System.Threading.Tasks;
 
 namespace SET08013_CW1
 {
-    class Messages
+    class Message
     {
         enum Level {UG, PG};
 
-        struct Message
-        {
-            string   body;
-            string[] subjects;
-            string[] universities;
-            Level    level;
-        }
+        Level    level;
+        string   body;
+        string[] subjects;
+        string[] universities;
     }
 }

@@ -15,13 +15,13 @@ namespace SET08013_CW1
         private const string _validFilePath      = "../Valid Messages.txt";
         private const string _quarantineFilePath = "../Quarantine Messages.txt";
         private       string _inputMessage;
-        private     string[] _validMessages;
+        private List<string> _validMessages      = new List<string>();
         
         public void ProcessMessage(string message)
         {
             _inputMessage = message;
             WriteMessageToFile(IsValidMessage());
-            ReadMessages();
+            ReadValidMessages();
         }
 
         private bool IsValidMessage()
@@ -66,19 +66,21 @@ namespace SET08013_CW1
                 if (c != ',')
                     result.Append(c);
             }
-            Console.Write(result);
             _inputMessage = result.ToString();
         }
 
-        private void ReadMessages()
+        private void ReadValidMessages()
         {
-            StreamReader reader = new StreamReader(File.OpenRead(@_badWordFilePath));
+            StreamReader reader = new StreamReader(File.OpenRead(@_validFilePath));
 
             while (!reader.EndOfStream)
             {
-                string line = reader.ReadLine();
-                _validMessages = line.Split(',');
-                Console.WriteLine(_validMessages[0]);
+                string   line = reader.ReadLine();
+                string[] text = line.Split(',');
+                foreach(string s in text)
+                {
+                    _validMessages.Add(s);
+                }
             }
         }
     }
