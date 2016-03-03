@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace SET08013_CW1
 {
@@ -36,8 +37,9 @@ namespace SET08013_CW1
             {
                 string   line  = reader.ReadLine();
                 string[] words = line.Split(',');
+                string regex = "\\b" + words[0].ToLower() + "\\b";  //Match entire word only.
 
-                if (_message.Contains(" "+words[0].ToLower()+" "))        //If the input message contains the word from the first column of the CSV
+                if (Regex.IsMatch(_message, regex))
                 {
                         return true;
                 }
