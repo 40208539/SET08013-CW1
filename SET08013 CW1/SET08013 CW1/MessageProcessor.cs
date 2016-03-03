@@ -95,18 +95,17 @@ namespace SET08013_CW1
         private void SearchMessage(string message)
         {
             //Determine whether the message is UG or PG
-           
-            string ugRegex = "(\bug\b|\bu/g\b|\bunder graduate\b)";
-            string pgRegex = "(\bpg\b|\bp/g\b|\bpost graduate\b)";
+            string[] subjects;
+            string[] universities;
+            Level    level         = Level.NONE;
+            string   ugRegex       = "(\bug\b|\bu/g\b|\bunder graduate\b)";
+            string   pgRegex       = "(\bpg\b|\bp/g\b|\bpost graduate\b)";
 
             if(Regex.IsMatch(message, ugRegex))
-            {
-
-            }
+                level = Level.UG;
             else if(Regex.IsMatch(message, pgRegex))
-            {
+                level = Level.PG;
 
-            }
         }
     }
 }
