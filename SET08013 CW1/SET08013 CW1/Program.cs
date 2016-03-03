@@ -10,6 +10,12 @@ namespace SET08013_CW1
     {
         static void Main(string[] args)
         {
+            MessageProcessor processor = new MessageProcessor();
+
+            Console.WriteLine("Please input message...");
+
+            processor.ProcessMessage(Console.ReadLine());
+            Console.ReadLine();
         }
     }
 }
