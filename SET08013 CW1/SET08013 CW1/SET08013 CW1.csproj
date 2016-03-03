@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Level.cs" />
     <Compile Include="MessageProcessor.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="Program.cs" />

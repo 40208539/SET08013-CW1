@@ -26,7 +26,10 @@ namespace SET08013_CW1
         public void ProcessValidMessages()
         {
             ReadValidMessages();
-            SearchMessage();
+            foreach (string message in _validMessages)
+            {
+                SearchMessage(message);
+            }
         }
 
         private bool IsValidMessage()
@@ -37,7 +40,7 @@ namespace SET08013_CW1
             {
                 string   line  = reader.ReadLine();
                 string[] words = line.Split(',');
-                string   regex = "\\b" + words[0].ToLower() + "\\b";  //Match entire word only.
+                string   regex = "\b" + words[0].ToLower() + "\b";  //Match entire word only.
 
                 if (Regex.IsMatch(_inputMessage.ToLower(), regex))
                 {
@@ -89,9 +92,21 @@ namespace SET08013_CW1
             }
         }
 
-        private void SearchMessage()
+        private void SearchMessage(string message)
         {
+            //Determine whether the message is UG or PG
+           
+            string ugRegex = "(\bug\b|\bu/g\b|\bunder graduate\b)";
+            string pgRegex = "(\bpg\b|\bp/g\b|\bpost graduate\b)";
 
+            if(Regex.IsMatch(message, ugRegex))
+            {
+
+            }
+            else if(Regex.IsMatch(message, pgRegex))
+            {
+
+            }
         }
     }
 }
