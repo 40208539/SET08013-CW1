@@ -21,7 +21,6 @@ namespace SET08013_CW1
         {
             _inputMessage = message;
             WriteMessageToFile(IsValidMessage());
-            ReadValidMessages();
         }
 
         private bool IsValidMessage()
