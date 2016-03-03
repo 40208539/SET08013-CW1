@@ -8,5 +8,14 @@ namespace SET08013_CW1
 {
     class Messages
     {
+        enum Level {UG, PG};
+
+        struct Message
+        {
+            string   body;
+            string[] subjects;
+            string[] universities;
+            Level    level;
+        }
     }
 }

@@ -15,11 +15,11 @@ namespace SET08013_CW1
         private const string _validFilePath      = "../Valid Messages.txt";
         private const string _quarantineFilePath = "../Quarantine Messages.txt";
         private       string _inputMessage;
+        private     string[] _validMessages;
         
         public void ProcessMessage(string message)
         {
-            _inputMessage = message.ToLower();
-
+            _inputMessage = message;
             writeMessageToFile(isValidMessage());
         }
 
@@ -33,7 +33,7 @@ namespace SET08013_CW1
                 string[] words = line.Split(',');
                 string   regex = "\\b" + words[0].ToLower() + "\\b";  //Match entire word only.
 
-                if (Regex.IsMatch(_inputMessage, regex))
+                if (Regex.IsMatch(_inputMessage.ToLower(), regex))
                 {
                     return false;
                 }
