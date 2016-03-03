@@ -18,7 +18,8 @@ namespace SET08013_CW1
             Console.WriteLine("1. Input message");
             Console.WriteLine("2. Process valid messages");
             Console.WriteLine("3. Exit");
-            processor.ProcessMessage(Console.ReadLine());
+
+            processor.InputMessage(Console.ReadLine());
             Console.ReadLine();
         }
     }

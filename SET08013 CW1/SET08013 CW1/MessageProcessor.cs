@@ -17,10 +17,16 @@ namespace SET08013_CW1
         private       string _inputMessage;
         private List<string> _validMessages      = new List<string>();
         
-        public void ProcessMessage(string message)
+        public void InputMessage(string message)
         {
             _inputMessage = message;
             WriteMessageToFile(IsValidMessage());
+        }
+
+        public void ProcessValidMessages()
+        {
+            ReadValidMessages();
+            SearchMessage();
         }
 
         private bool IsValidMessage()
@@ -81,6 +87,11 @@ namespace SET08013_CW1
                     _validMessages.Add(s);
                 }
             }
+        }
+
+        private void SearchMessage()
+        {
+
         }
     }
 }
