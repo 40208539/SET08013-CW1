@@ -20,10 +20,11 @@ namespace SET08013_CW1
         public void ProcessMessage(string message)
         {
             _inputMessage = message;
-            writeMessageToFile(isValidMessage());
+            WriteMessageToFile(IsValidMessage());
+            ReadMessages();
         }
 
-        private bool isValidMessage()
+        private bool IsValidMessage()
         {
             StreamReader reader = new StreamReader(File.OpenRead(@_badWordFilePath));
 
@@ -42,9 +43,9 @@ namespace SET08013_CW1
             return true;
         }
 
-        private void writeMessageToFile(bool valid)
+        private void WriteMessageToFile(bool valid)
         {
-            cleanMessage();
+            CleanMessage();
 
             if(valid)
             {
@@ -56,7 +57,7 @@ namespace SET08013_CW1
             }
         }
 
-        private void cleanMessage()
+        private void CleanMessage()
         {
             StringBuilder result = new StringBuilder(_inputMessage.Length);
 
@@ -67,6 +68,18 @@ namespace SET08013_CW1
             }
             Console.Write(result);
             _inputMessage = result.ToString();
+        }
+
+        private void ReadMessages()
+        {
+            StreamReader reader = new StreamReader(File.OpenRead(@_badWordFilePath));
+
+            while (!reader.EndOfStream)
+            {
+                string line = reader.ReadLine();
+                _validMessages = line.Split(',');
+                Console.WriteLine(_validMessages[0]);
+            }
         }
     }
 }
