@@ -98,14 +98,19 @@ namespace SET08013_CW1
             string[] subjects;
             string[] universities;
             Level    level         = Level.NONE;
-            string   ugRegex       = "(\bug\b|\bu/g\b|\bunder graduate\b)";
-            string   pgRegex       = "(\bpg\b|\bp/g\b|\bpost graduate\b)";
+            string   ugRegex       = @"(\bug\b)|(\bu/g\b)|(\bunder graduate\b)";
+            string   pgRegex       = @"(\bpg\b)|(\bp/g\b)|(\bpost graduate\b)";
 
-            if(Regex.IsMatch(message, ugRegex))
+            if (Regex.IsMatch(message.ToLower(), ugRegex))
+            {
                 level = Level.UG;
-            else if(Regex.IsMatch(message, pgRegex))
+            }
+            else if (Regex.IsMatch(message.ToLower(), pgRegex))
+            {
                 level = Level.PG;
+            }
 
+            Console.WriteLine(level);
         }
     }
 }
