@@ -110,7 +110,51 @@ namespace SET08013_CW1
                 level = Level.PG;
             }
 
-            Console.WriteLine(level);
+            StreamReader reader = new StreamReader(File.OpenRead(@_universityFilePath));
+            while (!reader.EndOfStream)
+            {
+
+            }
+        }
+
+        public int Levenshtein(string a, string b)
+        {
+            int n = a.Length;
+            int m = b.Length;
+            int cost = 0;
+            int min1;
+            int min2;
+            int min3;
+            int[,] d = new int[n+1,m+1];
+            if(n == 0)
+            {
+                return m;
+            }
+            if(m == 0)
+            {
+                return n;
+            }
+            for(int i = 0; i < n; i++)
+            {
+                d[i,0] = i;
+            }
+            for (int i = 0; i < n; i++)
+            {
+                d[0,i] = i;
+            }
+            for (int i = 1; i < n; i++)
+            {
+                for (int j = 1; j < m; j++)
+                {
+                    cost = (a[i] == b[j]) ? 0 : 1;
+                    min1 = d[i - 1, j] + 1;
+                    min2 = d[i,j - 1] + 1;
+                    min3 = d[i - 1,j - 1] + cost;
+                    d[i,j] = Math.Min(Math.Min(min1, min2), min3);
+                }
+            }
+            Console.WriteLine("done alg");
+            return d[n,m];
         }
     }
 }
