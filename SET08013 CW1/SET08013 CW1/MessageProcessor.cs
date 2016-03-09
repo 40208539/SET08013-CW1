@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using System.Web.Script.Serialization;
 
 namespace SET08013_CW1
 {
@@ -12,7 +13,7 @@ namespace SET08013_CW1
     {
         private const string _badWordFilePath    = "../textwords.csv";
         private const string _universityFilePath = "../University List.csv";
-        private const string _subjectsFilePath = "../subjects.csv";
+        private const string _subjectsFilePath   = "../subjects.csv";
         private const string _validFilePath      = "../Valid Messages.txt";
         private const string _quarantineFilePath = "../Quarantine Messages.txt";
         private       string _inputMessage;
@@ -99,11 +100,10 @@ namespace SET08013_CW1
             List<string> subjects = new List<string>();
             List<string> universities = new List<string>();
             List<string> wordsToRemove = "University of".Split(' ').ToList();
-            Message mess;
 
-            Level    level         = Level.NONE;
-            string   ugRegex       = @"(\bug\b)|(\bu/g\b)|(\bunder graduate\b)";
-            string   pgRegex       = @"(\bpg\b)|(\bp/g\b)|(\bpost graduate\b)";
+            Level level = Level.NONE;
+            string ugRegex = @"(\bug\b)|(\bu/g\b)|(\bunder graduate\b)";
+            string pgRegex = @"(\bpg\b)|(\bp/g\b)|(\bpost graduate\b)";
 
             if (Regex.IsMatch(message.ToLower(), ugRegex))
             {
@@ -119,22 +119,6 @@ namespace SET08013_CW1
             {
                 string line = reader.ReadLine();
                 string university = StringWordsRemove(line, wordsToRemove);
-                foreach(string word in message.Split(' '))
-                {
-                    int distance = Levenshtein(word.ToLower(), university.ToLower());
-
-                    if(distance < 3)
-                    {
-                        universities.Add(university);
-                    }
-                }
-            }
-
-            reader = new StreamReader(File.OpenRead(@_subjectsFilePath));
-            while (!reader.EndOfStream)
-            {
-                string line = reader.ReadLine();
-                string university = StringWordsRemove(line, wordsToRemove);
                 foreach (string word in message.Split(' '))
                 {
                     int distance = Levenshtein(word.ToLower(), university.ToLower());
@@ -146,7 +130,27 @@ namespace SET08013_CW1
                 }
             }
 
-            mess = new Message(level, message, subjects, universities);
+            reader = new StreamReader(File.OpenRead(@_subjectsFilePath));
+            while (!reader.EndOfStream)
+            {
+                string line = reader.ReadLine();
+                foreach (string word in message.Split(' '))
+                {
+                    int distance = Levenshtein(word.ToLower(), line.ToLower());
+
+                    if (distance < 3)
+                    {
+                        if (!subjects.Contains(line))
+                        {
+                            subjects.Add(line);
+                        }
+                    }
+                }
+            }
+
+            Message mess = new Message(level, message, subjects, universities);
+            string json = JsonHelper.JsonSerializer<Message>(mess);
+            Console.WriteLine(json);
         }
 
         private string StringWordsRemove(string stringToClean,List<string> wordsToRemove)
