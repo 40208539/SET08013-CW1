@@ -12,6 +12,7 @@ namespace SET08013_CW1
     {
         private const string _badWordFilePath    = "../textwords.csv";
         private const string _universityFilePath = "../University List.csv";
+        private const string _subjectsFilePath = "../subjects.csv";
         private const string _validFilePath      = "../Valid Messages.txt";
         private const string _quarantineFilePath = "../Quarantine Messages.txt";
         private       string _inputMessage;
@@ -98,6 +99,7 @@ namespace SET08013_CW1
             List<string> subjects = new List<string>();
             List<string> universities = new List<string>();
             List<string> wordsToRemove = "University of".Split(' ').ToList();
+            Message mess;
 
             Level    level         = Level.NONE;
             string   ugRegex       = @"(\bug\b)|(\bu/g\b)|(\bunder graduate\b)";
@@ -112,7 +114,6 @@ namespace SET08013_CW1
                 level = Level.PG;
             }
 
-            Console.WriteLine(message);
             StreamReader reader = new StreamReader(File.OpenRead(@_universityFilePath));
             while (!reader.EndOfStream)
             {
@@ -128,6 +129,24 @@ namespace SET08013_CW1
                     }
                 }
             }
+
+            reader = new StreamReader(File.OpenRead(@_subjectsFilePath));
+            while (!reader.EndOfStream)
+            {
+                string line = reader.ReadLine();
+                string university = StringWordsRemove(line, wordsToRemove);
+                foreach (string word in message.Split(' '))
+                {
+                    int distance = Levenshtein(word.ToLower(), university.ToLower());
+
+                    if (distance < 3)
+                    {
+                        universities.Add(university);
+                    }
+                }
+            }
+
+            mess = new Message(level, message, subjects, universities);
         }
 
         private string StringWordsRemove(string stringToClean,List<string> wordsToRemove)

@@ -30,16 +30,9 @@ namespace SET08013_CW1
                         processor.ProcessValidMessages();
                         Console.ReadLine();
                         break;
-                    case "4":
-                        Console.Clear();
-                        string a = Console.ReadLine();
-                        string b = Console.ReadLine();
-                        Console.WriteLine(a+" -> "+b+" = "+processor.Levenshtein(a,b));
-                        Console.ReadLine();
-                        break;
                 }
             }
-            while (cki.Key != ConsoleKey.Escape || cki.Key.ToString() != "3");
+            while (cki.Key.ToString() != "3");
         }
 
         static void ShowMenu()
@@ -50,7 +43,6 @@ namespace SET08013_CW1
             Console.WriteLine("1. Input message");
             Console.WriteLine("2. Process valid messages");
             Console.WriteLine("3. Exit");
-            Console.WriteLine("4. Levenshtein testing");
         }
     }
 }
