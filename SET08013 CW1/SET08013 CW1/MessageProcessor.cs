@@ -95,8 +95,10 @@ namespace SET08013_CW1
         private void SearchMessage(string message)
         {
             //Determine whether the message is UG or PG
-            string[] subjects;
-            string[] universities;
+            List<string> subjects = new List<string>();
+            List<string> universities = new List<string>();
+            List<string> wordsToRemove = "University of".Split(' ').ToList();
+
             Level    level         = Level.NONE;
             string   ugRegex       = @"(\bug\b)|(\bu/g\b)|(\bunder graduate\b)";
             string   pgRegex       = @"(\bpg\b)|(\bp/g\b)|(\bpost graduate\b)";
@@ -110,17 +112,56 @@ namespace SET08013_CW1
                 level = Level.PG;
             }
 
+            Console.WriteLine(message);
             StreamReader reader = new StreamReader(File.OpenRead(@_universityFilePath));
             while (!reader.EndOfStream)
             {
+                string line = reader.ReadLine();
+                string university = StringWordsRemove(line, wordsToRemove);
+                foreach(string word in message.Split(' '))
+                {
+                    int distance = Levenshtein(word.ToLower(), university.ToLower());
 
+                    if(distance < 3)
+                    {
+                        universities.Add(university);
+                    }
+                }
             }
+        }
+
+        private string StringWordsRemove(string stringToClean,List<string> wordsToRemove)
+        {
+            string regex;
+
+            foreach(string word in wordsToRemove)
+            {
+                regex = @"\b" + word + @"\b";
+                stringToClean = Regex.Replace(stringToClean, regex, "");
+            }
+
+            stringToClean = Regex.Replace(stringToClean, "  ", " ");
+            stringToClean = stringToClean.Trim();
+
+            return stringToClean;
         }
 
         public int Levenshtein(string a, string b)
         {
             int n = a.Length;
             int m = b.Length;
+
+            if (n > m)
+            {
+                b = b.PadRight(n);
+                m = n;
+            }
+            else if(m > n)
+            {
+                a = a.PadRight(m);
+                n = m;
+            }
+
             int cost = 0;
             int min1;
             int min2;

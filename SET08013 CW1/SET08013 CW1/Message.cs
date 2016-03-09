@@ -8,9 +8,9 @@ namespace SET08013_CW1
 {
     class Message
     {
-        private Level    _level;
-        private string   _body;
-        private string[] _subjects;
-        private string[] _universities;
+        private Level        _level;
+        private string       _body;
+        private List<string> _subjects;
+        private List<string> _universities;
     }
 }
