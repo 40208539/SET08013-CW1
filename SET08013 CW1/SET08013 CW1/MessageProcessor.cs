@@ -126,7 +126,7 @@ namespace SET08013_CW1
             int min2;
             int min3;
             int[,] d = new int[n+1,m+1];
-            if(n == 0)
+            if (n == 0)
             {
                 return m;
             }
@@ -138,22 +138,25 @@ namespace SET08013_CW1
             {
                 d[i,0] = i;
             }
-            for (int i = 0; i < n; i++)
+            for (int i = 0; i < m; i++)
             {
                 d[0,i] = i;
             }
-            for (int i = 1; i < n; i++)
+            for (int i = 1; i <= n; i++)
             {
-                for (int j = 1; j < m; j++)
+                for (int j = 1; j <= m; j++)
                 {
-                    cost = (a[i] == b[j]) ? 0 : 1;
+                    cost = (b[j - 1] == a[i - 1]) ? 0 : 1;
                     min1 = d[i - 1, j] + 1;
-                    min2 = d[i,j - 1] + 1;
-                    min3 = d[i - 1,j - 1] + cost;
+                    min2 = d[i, j - 1] + 1;
+                    min3 = d[i - 1, j - 1] + cost;
+
                     d[i,j] = Math.Min(Math.Min(min1, min2), min3);
+
+                    if (i > 1 && j > 1 && a[i - 1] == b[j - 2] && a[i - 2] == b[j - 1])
+                        d[i, j] = Math.Min(d[i, j], d[i - 2, j - 2] + cost);
                 }
             }
-            Console.WriteLine("done alg");
             return d[n,m];
         }
     }
