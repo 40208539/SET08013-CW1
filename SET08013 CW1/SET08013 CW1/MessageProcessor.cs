@@ -49,15 +49,15 @@ namespace SET08013_CW1
             {
                 string   line  = reader.ReadLine();
                 string[] words = line.Split(',');
-                Console.WriteLine(words[0]);
                 string   regex = @"\b" + words[0].ToLower() + @"\b";  //Match entire word only.
-                Console.ReadKey();
+
                 if (Regex.IsMatch(_inputMessage.ToLower(), regex))
                 {
+                    Console.WriteLine(words[0]);
+                    Console.ReadKey();
                     return false;
                 }
             }
-
             return true;
         }
 
@@ -66,13 +66,13 @@ namespace SET08013_CW1
             message = message.Replace('"', '\'');
             message = '"' + message + '"';
 
-            if (new FileInfo(filePath).Length == 0)
+            if (!File.Exists(filePath))
             {
-                File.AppendAllText(@_quarantineFilePath, message);
+                File.AppendAllText(filePath, message);
             }
             else
             {
-                File.AppendAllText(@_quarantineFilePath, "," + message);
+                File.AppendAllText(filePath, "," + message);
             }
         }
 
