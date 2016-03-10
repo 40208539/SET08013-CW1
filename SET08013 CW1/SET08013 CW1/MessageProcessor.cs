@@ -71,7 +71,7 @@ namespace SET08013_CW1
             }
             else
             {
-                File.AppendAllText(filePath, "," + message);
+                File.AppendAllText(filePath, "|" + message);
             }
         }
 
