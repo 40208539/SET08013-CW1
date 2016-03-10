@@ -42,8 +42,9 @@ namespace SET08013_CW1
             {
                 string   line  = reader.ReadLine();
                 string[] words = line.Split(',');
-                string   regex = "\b" + words[0].ToLower() + "\b";  //Match entire word only.
-
+                Console.WriteLine(words[0]);
+                string   regex = @"\b" + words[0].ToLower() + @"\b";  //Match entire word only.
+                Console.ReadKey();
                 if (Regex.IsMatch(_inputMessage.ToLower(), regex))
                 {
                     return false;
