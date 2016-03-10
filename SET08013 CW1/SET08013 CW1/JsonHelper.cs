@@ -27,5 +27,10 @@ namespace SET08013_CW1
             T obj = (T)ser.ReadObject(ms);
             return obj;
         }
+
+        public static void JsonWriteToFile(string jsonString, string filePath)
+        {
+            File.WriteAllText(filePath, jsonString);
+        }
     }
 }

@@ -22,7 +22,14 @@ namespace SET08013_CW1
         public void InputMessage(string message)
         {
             _inputMessage = message;
-            WriteMessageToFile(IsValidMessage());
+            if (IsValidMessage())
+            {
+                AppendMessageToFile(message, _validFilePath);
+            }
+            else
+            {
+                AppendMessageToFile(message, _quarantineFilePath);
+            }
         }
 
         public void ProcessValidMessages()
@@ -54,17 +61,18 @@ namespace SET08013_CW1
             return true;
         }
 
-        private void WriteMessageToFile(bool valid)
+        private void AppendMessageToFile(string message, string filePath)
         {
-            CleanMessage();
+            message = message.Replace('"', '\'');
+            message = '"' + message + '"';
 
-            if(valid)
+            if (new FileInfo(filePath).Length == 0)
             {
-                File.AppendAllText(@_validFilePath, _inputMessage + ",");
+                File.AppendAllText(@_quarantineFilePath, message);
             }
             else
             {
-                File.AppendAllText(@_quarantineFilePath, _inputMessage + ",");
+                File.AppendAllText(@_quarantineFilePath, "," + message);
             }
         }
 
