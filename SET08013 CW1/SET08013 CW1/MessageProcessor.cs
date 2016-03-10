@@ -63,8 +63,7 @@ namespace SET08013_CW1
 
         private void AppendMessageToFile(string message, string filePath)
         {
-            message = message.Replace('"', '\'');
-            message = '"' + message + '"';
+            message = message.Replace("|", "");
 
             if (!File.Exists(filePath))
             {
@@ -76,18 +75,6 @@ namespace SET08013_CW1
             }
         }
 
-        private void CleanMessage()
-        {
-            StringBuilder result = new StringBuilder(_inputMessage.Length);
-
-            foreach (char c in _inputMessage)
-            {
-                if (c != ',')
-                    result.Append(c);
-            }
-            _inputMessage = result.ToString();
-        }
-
         private void ReadValidMessages()
         {
             StreamReader reader = new StreamReader(File.OpenRead(@_validFilePath));
@@ -95,7 +82,7 @@ namespace SET08013_CW1
             while (!reader.EndOfStream)
             {
                 string   line = reader.ReadLine();
-                string[] text = line.Split(',');
+                string[] text = line.Split('|');
                 foreach(string s in text)
                 {
                     _validMessages.Add(s);
