@@ -95,11 +95,11 @@ namespace SET08013_CW1
             //Determine whether the message is UG or PG
             List<string> subjects = new List<string>();
             List<string> universities = new List<string>();
-            List<string> wordsToRemove = "University of".Split(' ').ToList();
+            List<string> wordsToRemove = "University of".Split(' ').ToList<string>();
 
             Level level = Level.NONE;
-            string ugRegex = @"(\bug\b)|(\bu/g\b)|(\bunder graduate\b)";
-            string pgRegex = @"(\bpg\b)|(\bp/g\b)|(\bpost graduate\b)";
+            string ugRegex = @"(\bug\b)|(\bu/g\b)|(\bunder graduate\b)|(\bundergraduate\b)";
+            string pgRegex = @"(\bpg\b)|(\bp/g\b)|(\bpost graduate\b)|(\bpostgraduate\b)";
 
             if (Regex.IsMatch(message.ToLower(), ugRegex))
             {
@@ -114,14 +114,13 @@ namespace SET08013_CW1
             while (!reader.EndOfStream)
             {
                 string line = reader.ReadLine();
-                string university = StringWordsRemove(line, wordsToRemove);
-                foreach (string word in message.Split(' '))
+                string editLine = StringWordsRemove(line, wordsToRemove).ToLower();
+                string uniRegex = @"\b"+editLine+@"\b";
+                if (Regex.IsMatch(message.ToLower(), uniRegex))
                 {
-                    int distance = Levenshtein(word.ToLower(), university.ToLower());
-
-                    if (distance < 3)
+                    if (!universities.Contains(line))
                     {
-                        universities.Add(university);
+                        universities.Add(line);
                     }
                 }
             }
@@ -130,16 +129,13 @@ namespace SET08013_CW1
             while (!reader.EndOfStream)
             {
                 string line = reader.ReadLine();
-                foreach (string word in message.Split(' '))
+                string editLine = line.Trim().ToLower();
+                string subjectRegex = @"\b" + editLine + @"\b";
+                if (Regex.IsMatch(message.ToLower(), subjectRegex))
                 {
-                    int distance = Levenshtein(word.ToLower(), line.ToLower());
-
-                    if (distance < 3)
+                    if (!subjects.Contains(line))
                     {
-                        if (!subjects.Contains(line))
-                        {
-                            subjects.Add(line);
-                        }
+                        subjects.Add(line);
                     }
                 }
             }
