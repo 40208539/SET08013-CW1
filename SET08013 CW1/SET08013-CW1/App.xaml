@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:SET08013_CW1"
              StartupUri="Noogle.xaml">
     <Application.Resources>
-         
+  
     </Application.Resources>
 </Application>
