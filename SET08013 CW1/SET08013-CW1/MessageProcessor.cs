@@ -53,8 +53,6 @@ namespace SET08013_CW1
 
                 if (Regex.IsMatch(_inputMessage.ToLower(), regex))
                 {
-                    Console.WriteLine(words[0]);
-                    Console.ReadKey();
                     return false;
                 }
             }
@@ -93,11 +91,11 @@ namespace SET08013_CW1
         private void SearchMessage(string message)
         {
             //Determine whether the message is UG or PG
-            List<string> subjects = new List<string>();
-            List<string> universities = new List<string>();
+            List<string> subjects      = new List<string>();
+            List<string> universities  = new List<string>();
             List<string> wordsToRemove = "University of".Split(' ').ToList<string>();
 
-            Level level = Level.NONE;
+            Level  level   = Level.NONE;
             string ugRegex = @"(\bug\b)|(\bu/g\b)|(\bunder graduate\b)|(\bundergraduate\b)";
             string pgRegex = @"(\bpg\b)|(\bp/g\b)|(\bpost graduate\b)|(\bpostgraduate\b)";
 
@@ -113,16 +111,17 @@ namespace SET08013_CW1
             StreamReader reader = new StreamReader(File.OpenRead(@_universityFilePath));
             while (!reader.EndOfStream)
             {
-                string line = reader.ReadLine();
-                string editLine = StringWordsRemove(line, wordsToRemove).ToLower();
-                string uniRegex = @"\b"+editLine+@"\b";
-                if (Regex.IsMatch(message.ToLower(), uniRegex))
+                string    line      = reader.ReadLine();
+                string    editLine  = StringWordsRemove(line, wordsToRemove).ToLower();
+                const int threshold = 2;
+
+                if(IsApproximateMatch(message.ToLower(), editLine, threshold))
                 {
                     if (!universities.Contains(line))
                     {
                         universities.Add(line);
                     }
-                }
+                } 
             }
 
             reader = new StreamReader(File.OpenRead(@_subjectsFilePath));
@@ -130,8 +129,9 @@ namespace SET08013_CW1
             {
                 string line = reader.ReadLine();
                 string editLine = line.Trim().ToLower();
-                string subjectRegex = @"\b" + editLine + @"\b";
-                if (Regex.IsMatch(message.ToLower(), subjectRegex))
+                const int threshold = 2;
+
+                if (IsApproximateMatch(message.ToLower(), editLine, threshold))
                 {
                     if (!subjects.Contains(line))
                     {
@@ -161,7 +161,29 @@ namespace SET08013_CW1
             return stringToClean;
         }
 
-        public int Levenshtein(string a, string b)
+        private bool IsApproximateMatch(string a, string b, int threshold)
+        {
+            if (a.Length < b.Length)
+            {
+                string tmp = b;
+                b = a;
+                a = tmp;
+            }
+
+            int limit = a.Length - b.Length;
+
+            for (int i = 0; i < limit; i++)
+            {
+                string aSubstring = a.Substring(i, b.Length);
+                if (Levenshtein(aSubstring, b) <= threshold)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private int Levenshtein(string a, string b)
         {
             int n = a.Length;
             int m = b.Length;

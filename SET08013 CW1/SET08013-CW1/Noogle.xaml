@@ -5,6 +5,21 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SET08013_CW1"
         mc:Ignorable="d"
-        Title="Noogle" Height="300" Width="500">
-    <Grid/>
+        Title="Noogle" Height="600" Width="800">
+    <Grid>
+        <TabControl x:Name="tabControl" HorizontalAlignment="Left" Height="540" Margin="10,10,0,0" VerticalAlignment="Top" Width="772" TabStripPlacement="Left">
+            <TabItem Header="Input" Height="50">
+                <Grid Background="#FFE5E5E5">
+                    <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="478" Margin="10,10,0,0" TextWrapping="Wrap" Text="Please enter your message..." VerticalAlignment="Top" Width="662"/>
+                    <Button x:Name="button" Content="Submit" HorizontalAlignment="Left" Margin="597,498,0,0" VerticalAlignment="Top" Width="75" IsDefault="True"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Applications" Height="50">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+            <TabItem Header="Quarantine" Height="50">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+        </TabControl>
+    </Grid>
 </Window>
