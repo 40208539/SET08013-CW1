@@ -16,6 +16,7 @@ namespace SET08013_CW1
         private const string _subjectsFilePath   = "../subjects.csv";
         private const string _validFilePath      = "../Valid Messages.txt";
         private const string _quarantineFilePath = "../Quarantine Messages.txt";
+        private const string _jsonFilePath       = "../../json/";
         private       string _inputMessage;
         private List<string> _validMessages      = new List<string>();
         
@@ -39,6 +40,20 @@ namespace SET08013_CW1
             {
                 SearchMessage(message);
             }
+        }
+
+        public List<Message> GetApplications()
+        {
+            List<Message> applications = new List<Message>();
+
+            foreach(string fileName in Directory.GetFiles(_jsonFilePath))
+            {
+                StreamReader reader = new StreamReader(File.OpenRead(_jsonFilePath + fileName));
+                string jsonString = reader.ReadToEnd();
+                applications.Add(JsonHelper.JsonDeserialize<Message>(jsonString));
+            }
+
+            return applications;
         }
 
         private bool IsValidMessage()
