@@ -19,9 +19,20 @@ namespace SET08013_CW1
     /// </summary>
     public partial class Noogle : Window
     {
+        MessageProcessor processor = new MessageProcessor();
+
         public Noogle()
         {
             InitializeComponent();
+        }
+
+        private void btnSubmit_Click(object sender, RoutedEventArgs e)
+        {
+            processor.InputMessage(txtInputMessage.Text);
+            processor.ProcessValidMessages();
+            List<Message> messages = processor.GetApplications();
+            txtInputMessage.Clear();
+            txtInputMessage.Text = JsonHelper.JsonSerializer<Message>(messages[0]);
         }
     }
 }

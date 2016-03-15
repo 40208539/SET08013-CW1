@@ -16,7 +16,7 @@ namespace SET08013_CW1
         private const string _subjectsFilePath   = "../subjects.csv";
         private const string _validFilePath      = "../Valid Messages.txt";
         private const string _quarantineFilePath = "../Quarantine Messages.txt";
-        private const string _jsonFilePath       = "../../json/";
+        private const string _jsonFilePath       = "../../json";
         private       string _inputMessage;
         private List<string> _validMessages      = new List<string>();
         
@@ -54,6 +54,24 @@ namespace SET08013_CW1
             }
 
             return applications;
+        }
+
+        public List<string> GetQuarantinedMessages()
+        {
+            List<string> messages = new List<string>();
+            StreamReader reader = new StreamReader(File.OpenRead(@_quarantineFilePath));
+
+            while (!reader.EndOfStream)
+            {
+                string line = reader.ReadLine();
+                string[] text = line.Split('|');
+                foreach (string s in text)
+                {
+                    messages.Add(s);
+                }
+            }
+
+            return messages;
         }
 
         private bool IsValidMessage()
@@ -128,7 +146,7 @@ namespace SET08013_CW1
             {
                 string    line      = reader.ReadLine();
                 string    editLine  = StringWordsRemove(line, wordsToRemove).ToLower();
-                const int threshold = 2;
+                const int threshold = 1;
 
                 if(IsApproximateMatch(message.ToLower(), editLine, threshold))
                 {
@@ -144,7 +162,7 @@ namespace SET08013_CW1
             {
                 string line = reader.ReadLine();
                 string editLine = line.Trim().ToLower();
-                const int threshold = 2;
+                const int threshold = 1;
 
                 if (IsApproximateMatch(message.ToLower(), editLine, threshold))
                 {
@@ -157,7 +175,7 @@ namespace SET08013_CW1
 
             Message mess = new Message(level, message, subjects, universities);
             string json = JsonHelper.JsonSerializer<Message>(mess);
-            Console.WriteLine(json);
+            JsonHelper.JsonWriteToFile(json, _jsonFilePath + "\\hello.txt");
         }
 
         private string StringWordsRemove(string stringToClean,List<string> wordsToRemove)

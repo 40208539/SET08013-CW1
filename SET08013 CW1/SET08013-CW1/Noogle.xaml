@@ -10,8 +10,8 @@
         <TabControl x:Name="tabControl" HorizontalAlignment="Left" Height="540" Margin="10,10,0,0" VerticalAlignment="Top" Width="772" TabStripPlacement="Left">
             <TabItem Header="Input" Height="50">
                 <Grid Background="#FFE5E5E5">
-                    <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="478" Margin="10,10,0,0" TextWrapping="Wrap" Text="Please enter your message..." VerticalAlignment="Top" Width="662"/>
-                    <Button x:Name="button" Content="Submit" HorizontalAlignment="Left" Margin="597,498,0,0" VerticalAlignment="Top" Width="75" IsDefault="True"/>
+                    <TextBox x:Name="txtInputMessage" HorizontalAlignment="Left" Height="478" Margin="10,10,0,0" TextWrapping="Wrap" Text="Please enter your message..." VerticalAlignment="Top" Width="662"/>
+                    <Button x:Name="btnSubmit" Content="Submit" HorizontalAlignment="Left" Margin="597,498,0,0" VerticalAlignment="Top" Width="75" IsDefault="True" Click="btnSubmit_Click"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Applications" Height="50">
