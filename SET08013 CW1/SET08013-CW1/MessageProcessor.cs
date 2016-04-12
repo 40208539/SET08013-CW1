@@ -16,7 +16,7 @@ namespace SET08013_CW1
         private const string _subjectsFilePath   = "../subjects.csv";
         private const string _validFilePath      = "../Valid Messages.txt";
         private const string _quarantineFilePath = "../Quarantine Messages.txt";
-        private const string _jsonFilePath       = "../../json";
+        private const string _jsonFilePath       = "../../json.txt";
         private       string _inputMessage;
         private List<string> _validMessages      = new List<string>();
         
@@ -38,6 +38,7 @@ namespace SET08013_CW1
             ReadValidMessages();
             foreach (string message in _validMessages)
             {
+                File.WriteAllText(@_jsonFilePath, string.Empty);
                 SearchMessage(message);
             }
         }
@@ -45,14 +46,18 @@ namespace SET08013_CW1
         public List<Message> GetApplications()
         {
             List<Message> applications = new List<Message>();
+            List<string> messages = new List<string>();
+            StreamReader reader = new StreamReader(File.OpenRead(@_jsonFilePath));
 
-            foreach(string fileName in Directory.GetFiles(_jsonFilePath))
+            while (!reader.EndOfStream)
             {
-                StreamReader reader = new StreamReader(File.OpenRead(_jsonFilePath + fileName));
-                string jsonString = reader.ReadToEnd();
-                applications.Add(JsonHelper.JsonDeserialize<Message>(jsonString));
+                string line = reader.ReadLine();
+                string[] jsons = line.Split('|');
+                foreach (string jsonString in jsons)
+                {
+                    applications.Add(JsonHelper.JsonDeserialize<Message>(jsonString));
+                }
             }
-
             return applications;
         }
 
@@ -175,8 +180,9 @@ namespace SET08013_CW1
 
             Message mess = new Message(level, message, subjects, universities);
             string json = JsonHelper.JsonSerializer<Message>(mess);
-            JsonHelper.JsonWriteToFile(json, _jsonFilePath + "\\hello.txt");
+            AppendMessageToFile(json, _jsonFilePath);
         }
+
 
         private string StringWordsRemove(string stringToClean,List<string> wordsToRemove)
         {
@@ -186,6 +192,7 @@ namespace SET08013_CW1
             {
                 regex = @"\b" + word + @"\b";
                 stringToClean = Regex.Replace(stringToClean, regex, "");
+                stringToClean = stringToClean.Replace("|", " ");
             }
 
             stringToClean = Regex.Replace(stringToClean, "  ", " ");
@@ -196,14 +203,14 @@ namespace SET08013_CW1
 
         private bool IsApproximateMatch(string a, string b, int threshold)
         {
-            if (a.Length < b.Length)
+            int limit = a.Length - b.Length + 1;
+            if(limit <= 0)
             {
-                string tmp = b;
-                b = a;
-                a = tmp;
+                if (Levenshtein(a, b) <= threshold)
+                {
+                    return true;
+                }
             }
-
-            int limit = a.Length - b.Length;
 
             for (int i = 0; i < limit; i++)
             {
@@ -221,6 +228,7 @@ namespace SET08013_CW1
             int n = a.Length;
             int m = b.Length;
 
+            /*
             if (n > m)
             {
                 b = b.PadRight(n);
@@ -231,6 +239,7 @@ namespace SET08013_CW1
                 a = a.PadRight(m);
                 n = m;
             }
+            */
 
             int cost = 0;
             int min1;

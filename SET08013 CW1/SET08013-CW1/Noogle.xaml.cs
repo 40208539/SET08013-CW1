@@ -29,10 +29,7 @@ namespace SET08013_CW1
         private void btnSubmit_Click(object sender, RoutedEventArgs e)
         {
             processor.InputMessage(txtInputMessage.Text);
-            processor.ProcessValidMessages();
-            List<Message> messages = processor.GetApplications();
             txtInputMessage.Clear();
-            txtInputMessage.Text = JsonHelper.JsonSerializer<Message>(messages[0]);
         }
     }
 }

@@ -15,7 +15,15 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Applications" Height="50">
-                <Grid Background="#FFE5E5E5"/>
+                <Grid Background="#FFE5E5E5" Margin="-2,-2,-2,-1">
+                    <ListBox x:Name="lstApplications" HorizontalAlignment="Left" Height="454" Margin="10,36,0,0" VerticalAlignment="Top" Width="100"/>
+                    <Label x:Name="lblApplications" Content="Applications" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Width="100"/>
+                    <Button x:Name="btnLoad" Content="Update" HorizontalAlignment="Left" Margin="10,504,0,0" VerticalAlignment="Top" Width="100"/>
+                    <TextBox x:Name="txtMessage" HorizontalAlignment="Left" Height="180" Margin="138,36,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="545"/>
+                    <ListBox x:Name="listBox" HorizontalAlignment="Left" Height="100" Margin="577,252,0,0" VerticalAlignment="Top" Width="100"/>
+                    <Label x:Name="label" Content="Label" HorizontalAlignment="Left" Margin="577,221,0,0" VerticalAlignment="Top"/>
+                    <Label x:Name="lblLevel" Content="Level" HorizontalAlignment="Left" Margin="132,221,0,0" VerticalAlignment="Top"/>
+                </Grid>
             </TabItem>
             <TabItem Header="Quarantine" Height="50">
                 <Grid Background="#FFE5E5E5"/>
