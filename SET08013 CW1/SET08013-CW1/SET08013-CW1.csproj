@@ -57,7 +57,6 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="JsonHelper.cs" />
-    <Compile Include="Level.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Message.cs" />

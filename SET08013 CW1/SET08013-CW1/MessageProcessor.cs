@@ -38,7 +38,6 @@ namespace SET08013_CW1
             ReadValidMessages();
             foreach (string message in _validMessages)
             {
-                File.WriteAllText(@_jsonFilePath, string.Empty);
                 SearchMessage(message);
             }
         }
@@ -133,17 +132,17 @@ namespace SET08013_CW1
             List<string> universities  = new List<string>();
             List<string> wordsToRemove = "University of".Split(' ').ToList<string>();
 
-            Level  level   = Level.NONE;
+            String level   = "NONE";
             string ugRegex = @"(\bug\b)|(\bu/g\b)|(\bunder graduate\b)|(\bundergraduate\b)";
             string pgRegex = @"(\bpg\b)|(\bp/g\b)|(\bpost graduate\b)|(\bpostgraduate\b)";
 
             if (Regex.IsMatch(message.ToLower(), ugRegex))
             {
-                level = Level.UG;
+                level = "Undergraduate";
             }
             else if (Regex.IsMatch(message.ToLower(), pgRegex))
             {
-                level = Level.PG;
+                level = "Postgraduate";
             }
 
             StreamReader reader = new StreamReader(File.OpenRead(@_universityFilePath));

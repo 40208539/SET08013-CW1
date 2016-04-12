@@ -20,6 +20,7 @@ namespace SET08013_CW1
     public partial class Noogle : Window
     {
         MessageProcessor processor = new MessageProcessor();
+        List<Message> applications = new List<Message>();
 
         public Noogle()
         {
@@ -30,6 +31,39 @@ namespace SET08013_CW1
         {
             processor.InputMessage(txtInputMessage.Text);
             txtInputMessage.Clear();
+        }
+
+        private void btnUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            processor.ProcessValidMessages();
+            applications = processor.GetApplications();
+            lstApplications.Items.Clear();
+            int id = 0;
+            foreach (Message m in applications)
+            {
+                lstApplications.Items.Add("#" + id);
+                id++;
+            }
+        }
+
+        private void lstApplications_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int index = lstApplications.SelectedIndex;
+            Message application = applications[index];
+            txtMessage.Clear();
+            txtLevel.Clear();
+            txtMessage.Text = application.Body;
+            txtLevel.Text = application.level;
+            lstUni.Items.Clear();
+            lstSubjects.Items.Clear();
+            foreach(string university in application.Universities)
+            {
+                lstUni.Items.Add(university);
+            }
+            foreach (string subject in application.Subjects)
+            {
+                lstSubjects.Items.Add(subject);
+            }
         }
     }
 }
