@@ -21,6 +21,7 @@ namespace SET08013_CW1
     {
         MessageProcessor processor = new MessageProcessor();
         List<Message> applications = new List<Message>();
+        List<string> quarantinedMessages = new List<string>();
 
         public Noogle()
         {
@@ -35,9 +36,9 @@ namespace SET08013_CW1
 
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
-            processor.ProcessValidMessages();
-            applications = processor.GetApplications();
             lstApplications.Items.Clear();
+            processor.ProcessValidMessages();
+            applications = processor.GetApplications(); 
             int id = 0;
             foreach (Message m in applications)
             {
@@ -49,20 +50,45 @@ namespace SET08013_CW1
         private void lstApplications_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             int index = lstApplications.SelectedIndex;
-            Message application = applications[index];
-            txtMessage.Clear();
-            txtLevel.Clear();
-            txtMessage.Text = application.Body;
-            txtLevel.Text = application.level;
-            lstUni.Items.Clear();
-            lstSubjects.Items.Clear();
-            foreach(string university in application.Universities)
+            if (index != -1)
             {
-                lstUni.Items.Add(university);
+                Message application = applications[index];
+                txtMessage.Clear();
+                txtLevel.Clear();
+                txtMessage.Text = application.Body;
+                txtLevel.Text = application.level;
+                lstUni.Items.Clear();
+                lstSubjects.Items.Clear();
+                foreach (string university in application.Universities)
+                {
+                    lstUni.Items.Add(university);
+                }
+                foreach (string subject in application.Subjects)
+                {
+                    lstSubjects.Items.Add(subject);
+                }
             }
-            foreach (string subject in application.Subjects)
+        }
+
+        private void btnQuarUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            lstQuarantine.Items.Clear();
+            quarantinedMessages = processor.GetQuarantinedMessages();
+            int id = 0;
+            foreach(string message in quarantinedMessages)
             {
-                lstSubjects.Items.Add(subject);
+                lstQuarantine.Items.Add("#" + id);
+                id++;
+            }
+        }
+
+        private void lstQuarantine_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            txtQuarMessage.Clear();
+            int index = lstQuarantine.SelectedIndex;
+            if (index != -1)
+            {
+                txtQuarMessage.Text = quarantinedMessages[index];
             }
         }
     }

@@ -23,14 +23,20 @@
                     <ListBox x:Name="lstSubjects" HorizontalAlignment="Left" Height="238" Margin="467,252,0,0" VerticalAlignment="Top" Width="205"/>
                     <Label x:Name="lblSubject" Content="Subjects" HorizontalAlignment="Left" Margin="464,221,0,0" VerticalAlignment="Top"/>
                     <Label x:Name="lblLevel" Content="Level" HorizontalAlignment="Left" Margin="122,221,0,0" VerticalAlignment="Top"/>
-                    <Label x:Name="lblMessage" Content="Applications" HorizontalAlignment="Left" Margin="125,5,0,0" VerticalAlignment="Top" Width="100"/>
+                    <Label x:Name="lblMessage" Content="Message" HorizontalAlignment="Left" Margin="125,5,0,0" VerticalAlignment="Top" Width="100"/>
                     <TextBox x:Name="txtLevel" HorizontalAlignment="Left" Height="23" Margin="125,252,0,0" TextWrapping="Wrap" Text="N/A" VerticalAlignment="Top" Width="120"/>
                     <ListBox x:Name="lstUni" HorizontalAlignment="Left" Height="238" Margin="259,252,0,0" VerticalAlignment="Top" Width="194"/>
                     <Label x:Name="lblUni" Content="Universities" HorizontalAlignment="Left" Margin="257,221,0,0" VerticalAlignment="Top"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Quarantine" Height="50">
-                <Grid Background="#FFE5E5E5"/>
+                <Grid Background="#FFE5E5E5">
+                    <Label x:Name="lblQuarantine" Content="Quarantined Messages" HorizontalAlignment="Left" Margin="5,10,0,0" VerticalAlignment="Top"/>
+                    <ListBox x:Name="lstQuarantine" HorizontalAlignment="Left" Height="458" Margin="10,41,0,0" VerticalAlignment="Top" Width="126" SelectionChanged="lstQuarantine_SelectionChanged"/>
+                    <Button x:Name="btnQuarUpdate" Content="Update" HorizontalAlignment="Left" Margin="10,504,0,0" VerticalAlignment="Top" Width="126" IsDefault="True" Click="btnQuarUpdate_Click"/>
+                    <TextBox x:Name="txtQuarMessage" HorizontalAlignment="Left" Height="458" Margin="157,41,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="520"/>
+                    <Label x:Name="lblQuarMessage" Content="Message" HorizontalAlignment="Left" Margin="153,10,0,0" VerticalAlignment="Top"/>
+                </Grid>
             </TabItem>
         </TabControl>
     </Grid>

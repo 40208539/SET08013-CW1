@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using System.Web.Script.Serialization;
+using System.Windows;
 
 namespace SET08013_CW1
 {
@@ -36,6 +37,10 @@ namespace SET08013_CW1
         public void ProcessValidMessages()
         {
             ReadValidMessages();
+            if (File.Exists(@_jsonFilePath))
+            {
+                File.Delete(@_jsonFilePath);
+            }
             foreach (string message in _validMessages)
             {
                 SearchMessage(message);
@@ -45,17 +50,24 @@ namespace SET08013_CW1
         public List<Message> GetApplications()
         {
             List<Message> applications = new List<Message>();
-            List<string> messages = new List<string>();
-            StreamReader reader = new StreamReader(File.OpenRead(@_jsonFilePath));
-
-            while (!reader.EndOfStream)
+            try
             {
-                string line = reader.ReadLine();
-                string[] jsons = line.Split('|');
-                foreach (string jsonString in jsons)
+                StreamReader reader = new StreamReader(File.OpenRead(@_jsonFilePath));
+
+                while (!reader.EndOfStream)
                 {
-                    applications.Add(JsonHelper.JsonDeserialize<Message>(jsonString));
+                    string line = reader.ReadLine();
+                    string[] jsons = line.Split('|');
+                    foreach (string jsonString in jsons)
+                    {
+                        applications.Add(JsonHelper.JsonDeserialize<Message>(jsonString));
+                    }
                 }
+                reader.Close();
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show("Could not find file '" + _jsonFilePath + "'.");
             }
             return applications;
         }
@@ -63,18 +75,24 @@ namespace SET08013_CW1
         public List<string> GetQuarantinedMessages()
         {
             List<string> messages = new List<string>();
-            StreamReader reader = new StreamReader(File.OpenRead(@_quarantineFilePath));
-
-            while (!reader.EndOfStream)
+            try
             {
-                string line = reader.ReadLine();
-                string[] text = line.Split('|');
-                foreach (string s in text)
+                StreamReader reader = new StreamReader(File.OpenRead(@_quarantineFilePath));
+
+                while (!reader.EndOfStream)
                 {
-                    messages.Add(s);
+                    string line = reader.ReadLine();
+                    string[] text = line.Split('|');
+                    foreach (string s in text)
+                    {
+                        messages.Add(s);
+                    }
                 }
             }
-
+            catch (Exception e)
+            {
+                MessageBox.Show("Could not find file '" + _quarantineFilePath + "'.");
+            }
             return messages;
         }
 
@@ -112,16 +130,24 @@ namespace SET08013_CW1
 
         private void ReadValidMessages()
         {
-            StreamReader reader = new StreamReader(File.OpenRead(@_validFilePath));
-
-            while (!reader.EndOfStream)
+            try
             {
-                string   line = reader.ReadLine();
-                string[] text = line.Split('|');
-                foreach(string s in text)
+                StreamReader reader = new StreamReader(File.OpenRead(@_validFilePath));
+                _validMessages.Clear();
+
+                while (!reader.EndOfStream)
                 {
-                    _validMessages.Add(s);
+                    string line = reader.ReadLine();
+                    string[] text = line.Split('|');
+                    foreach (string s in text)
+                    {
+                        _validMessages.Add(s);
+                    }
                 }
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show("Could not find file '" + _validFilePath + "'.");
             }
         }
 
